@@ -1,0 +1,35 @@
+section{
+    margin: 30px;
+    height: 540px;
+    width:400px;
+  
+}
+
+section img {
+    height: 400px;
+    width: 400px;
+}
+  
+div{
+
+    align-items: center;
+}
+header{
+    align-items: center;
+}
+
+select{
+    height: 35px ;
+    width: 180px;
+    border-radius: 15px;
+    border: 2px solid blue;
+}
+
+footer{
+    font-size: 30px;
+    background-color: silver;
+    color: blue;
+    height: 120px;
+    text-align: center;
+    line-height: 120px;
+}

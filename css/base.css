@@ -1,0 +1,15 @@
+header {
+    font-family: 'Nothing You Could Do', cursive;
+    color: blue;
+    text-align: center;
+    background-color: silver;
+    padding: 25px;
+}
+main {
+    padding: 25px;
+}
+body {
+    margin: 0 auto;
+    text-align: center;
+    background-color: lightgray;
+  }
