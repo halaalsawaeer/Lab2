@@ -1,69 +1,76 @@
 'use strict';
 
-let allAnimal = [];
-let optionArr = ['narwhal', 'narwhal', 'triceratops', 'rhino', 'mouflon', 'lizard', 'dragon', 'unicorn', 'markhor', 'chameleon', 'narwhal', 'narwhal', 'triceratops', 'rhino', 'mouflon', 'lizard', 'dragon', 'unicorn', 'markhor', 'chameleon'];
+//Array of Photo objects
+let allPhotos = [];
+let optionsArr = ['narwhal', 'narwhal', 'triceratops', 'rhino', 'mouflon', 'lizard', 'dragon', 'unicorn', 'markhor', 'chameleon', 'narwhal', 'narwhal', 'triceratops', 'rhino', 'mouflon', 'lizard', 'dragon', 'unicorn', 'markhor', 'chameleon'];
 
-function Animal(animalObj) {
-    this.image_url = animalObj.image_url;
-    this.title = animalObj.title;
-    this.description = animalObj.description;
-    this.keyword = animalObj.keyword;
-    this.horns = animalObj.horns;
-    allAnimal.push(this);
+//Constructor
+function Photo(photoObj) {
+    this.image_url = photoObj.image_url;
+    this.title = photoObj.title;
+    this.description = photoObj.description;
+    this.keyword = photoObj.keyword;
+    this.horns = photoObj.horns;
+    allPhotos.push(this);
 }
 
-Animal.prototype.render = function () {
-    let templete = $('.photo-template').clone();
-    $('main').append(templete);
+//Prototype to render the images and their title and description
+Photo.prototype.render = function () {
+    let templete = $('#photo-template').clone();
     templete.find('h2').text(this.title);
     templete.find('img').attr('src', this.image_url);
     templete.find('p').text(this.description);
-    templete.removeClass('photo-template');
+    templete.remove('photo-template');
+    $('main').append(templete);
 }
 
-var animArr = [];
-$.ajax('data/page-1.json')
-.then(data=>{
-    console.log(data); // array of objects
-    data.forEach((val,idx)=>{
-        let newAnimal = new Animal(val);
-        newAnimal.render();
-        if (animArr.indexOf(newAnimal.keyword) === -1) {
-            animArr.push(newAnimal.keyword);
-          }
+//Array to store the selected photos from select
+var selectedPhotosArr = [];
+
+//To get the data from the JSON file
+$.ajax('./data/page-1.json')
+    .then(data => {
+        console.log(data); // array of objects
+        data.forEach((value) => {
+            //Create a new object of type Photo
+            let newPhoto = new Photo(value);
+            newPhoto.render();
+
+            //Check if the selected photo is in the array or not
+            if (!selectedPhotosArr.includes(value.keyword)) {
+                selectedPhotosArr.push(value.keyword);
+            }
+
+        });
+        selectPhoto();
     });
-    selectItem();
-});
 
 
-function selectItem() {
-    animArr.forEach(element => {
+//Function to add options to the 'select' element from the selectedPhotosArr array
+function selectPhoto() {
+    selectedPhotosArr.forEach(element => {
         let option = $(`<option value="${element}"> ${element}</option>`);
         console.log(option);
         $('select').append(option);
     });
 }
 
-$('select').click(function (event) {
 
-    let selected = $('select').val();
-  
-    if (event.target.value !== 'default' || event.target.value !== selected) {
-      console.log(event.target.value);
-     
-      $('main').empty();
-    //   $('main').append('section');
-      $('main').append(`<section class="photo-template">
-      <h2></h2>
-      <img src="" alt="">
-      <p></p>
-    </section>`);
+$('select').click(function () {
 
-      allAnimal.forEach(function (value, indext) {
-  
-        if (value.keyword === event.target.value) {
-          value.render();
-        }
-      }); 
+    let selected = $(this).val();
+    
+    //As long as the value of the option selected is not default
+    if (selected !== 'default') {
+        let container = $('#photo-template');
+
+        $('main').empty();
+        $('main').append(container);
+
+        allPhotos.forEach(function (value) {
+            if (value.keyword === selected) {
+                value.render();
+            }
+        });
     }
-  });
+});

@@ -10,7 +10,7 @@ Start time: 2:00
 
 Finish time: 4:37
 
-Actual time needed to complete: 2-3 hour
+Actual time needed to complete: 2-3 hours
 
 
 
